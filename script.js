@@ -110,27 +110,43 @@ class MapEditor {
 
 // A class that takes a few parameters a
 class ItemListing {
-	constructor(items, attachTo) {
-		this.currentIndex = 0;
+	constructor(name, items, attachTo, header) {
 		this.parent = attachTo;
 		
-		this.order = new Array(items);
-		for (var i = 0; i < layers; i++) {
+		this.items = items;
+		
+		this.order = new Array(this.items);
+		for (var i = 0; i < this.items; i++) {
 			this.order[i] = {
-				layer: i,
+				item: i,
 				visible: false
 			};
 		}
 		
 		this.element = document.createElement("table");
-		// todo. don't be mean to yourself, dummy
+		
+		
 		
 		this.element = this.parent.appendChild(this.element);
 	}
 	
-	draw(map) {
-		for (var i = 0; i < this.order.length; i++) {
-			if (this.order[i].visible) map.drawLayer(this.order[i].layer);
+	get currentIndex() {
+		var radioButtons = document.getElementsByName(this.name);
+		
+		for (i = 0; i < radioButtons.length; i++) {
+			if (radioButtons[i].checked) {
+				return radioButtons[i].value;
+			}
+		}
+		
+		return null;
+	}
+	
+	drawMap(map) {
+		if (map.layers < this.items) return;
+		
+		for (var i = 0; i < this.items; i++) {
+			if (this.order[i].visible) map.drawLayer(this.order[i].item);
 		}
 	}
 }
@@ -241,7 +257,7 @@ function generalSetup() {
 		
 		info.href = editingMap.toBlob();
 		info.download = name + ".v360map";
-		info.innerHTML = "📄 Download " + name + ".v360map";
+		info.innerHTML = "📄 " + name + ".v360map";
 		
 		info.addEventListener("click", (e)=>{
 			e.target.remove();

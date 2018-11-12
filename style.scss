@@ -39,6 +39,8 @@
 	--top-panel-height: 2.5rem;
 	--side-panel-width: 16rem;
 	
+	--main-panel-padding: 2rem;
+	
 	background-color: #cfcfcf;
 	
 	&.dark {
@@ -69,15 +71,25 @@
 }
 
 @mixin input {
+	@include noSelect;
+	
 	-moz-appearance: none;
 	-webkit-appearance: none;
 	appearance: none;
 	
+	display: inline-block;
+	
 	border: solid 1px var(--border-color);
 	padding: 0 .25rem;
 	
+	height: 2rem;
+	
 	color: var(--control-input-text);
 	background-color: var(--control-input-background);
+	
+	line-height: 2rem;
+	text-decoration: none;
+	vertical-align: top;
 	
 	&:not([type="text"]) {
 		cursor: pointer;
@@ -96,6 +108,13 @@
 		background-color: var(--control-input-background-hover);
 		color: var(--control-input-text-hover);
 	}
+}
+
+@mixin noSelect {
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 
 input:disabled {
@@ -173,6 +192,8 @@ html, body, #content {
 		overflow-y: auto;
 		
 		h1 {
+			@include noSelect;
+			
 			border-bottom: solid 1px var(--border-color);
 		}
 		
@@ -224,6 +245,8 @@ html, body, #content {
 		display: flex; /*weird, but okay*/
 		float: right;
 		
+		padding: var(--main-panel-padding);
+		
 		width: calc(100% - calc(var(--side-panel-width) * 2));
 		height: 100%;
 		
@@ -237,9 +260,25 @@ html, body, #content {
 		align-items: center;
 		justify-content: center;
 		justify-items: center;
-	
+		
+		&:empty::after {
+			content: "Welcome!\APress \"New Map\" to make a new map,\Aor press \"Load Map\" and choose a file from your hard drive.";
+			
+			display: inline-block;
+			
+			border: solid 1px var(--border-color);
+			padding: 1rem;
+			
+			color: var(--panel-text);
+			background-color: var(--panel-background);
+			
+			line-height: 1.5rem;
+			text-align: center;
+			white-space: pre;
+		}
+		
 		#display, .display {
-			margin: .25rem;
+			margin: var(--main-panel-padding);
 			border: solid 1px var(--border-color);
 			
 			background-color: black;
@@ -314,13 +353,15 @@ html, body, #content {
 		}
 		
 		label {
+			@include noSelect;
+			
 			border-right: none;
 			
 			color: var(--control-label-text);
 			background-color: var(--control-label-background);
 			
 			line-height: inherit;
-			vertical-align: bottom;
+			vertical-align: top;
 		}
 		
 		input[type="number"] {
@@ -362,7 +403,7 @@ html, body, #content {
 		width: 1rem;
 		height: 1rem;
 		
-		vertical-align: bottom;
+		vertical-align: top;
 		
 		&:checked {
 			background-color: var(--control-input-accent);
@@ -370,7 +411,16 @@ html, body, #content {
 	}
 }
 
+.lookLikeAButton {
+	@include input;
+	@include button;
+	
+	height: 2rem;
+}
+
 #content label {
+	@include noSelect;
+	
 	display: inline-block;
 	
 	padding-left: .5rem;
@@ -378,10 +428,5 @@ html, body, #content {
 	height: 1rem;
 	
 	line-height: 1rem;
-	vertical-align: bottom;
-	
-	user-select: none;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
+	vertical-align: top;
 }
