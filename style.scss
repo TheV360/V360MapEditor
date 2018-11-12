@@ -1,0 +1,366 @@
+* {
+	margin: 0;
+	border: 0;
+	padding: 0;
+	outline: 0;
+	
+	box-sizing: border-box;
+	
+	font-family: sans-serif;
+	font-size: 1rem;
+}
+
+:root {
+	--panel-text: black;
+	--panel-background: #efefef;
+	
+	--main-window-gradient-top: #afafaf;
+	--main-window-gradient-bottom: #7f7f7f;
+	
+	--border-color: black;
+	
+	--control-label-text: black;
+	--control-label-text-hover: white;
+	--control-label-background: #cfcfcf;
+	--control-label-background-hover: #3f3f3f;
+	
+	--control-input-text: black;
+	--control-input-text-hover: white;
+	--control-input-background: white;
+	--control-input-background-hover: black;
+	--control-input-background-disabled: #7f7f7f;
+	
+	//--control-input-button-background: var(--control-label-background);
+	--control-input-accent: #7fcfff;
+	
+	--top-panel-height: 2.5rem;
+	--side-panel-width: 16rem;
+	
+	background-color: white;
+	
+	&.dark {
+		--panel-text: #afafaf;
+		--panel-background: #1f1f1f;
+		
+		--main-window-gradient-top: #2f2f2f;
+		--main-window-gradient-bottom: #1f1f1f;
+		
+		--border-color: #7f7f7f;
+		
+		--control-label-text: white;
+		--control-label-text-hover: black;
+		--control-label-background: #3f3f3f;
+		--control-label-background-hover: #cfcfcf;
+		
+		--control-input-text: white;
+		--control-input-text-hover: black;
+		--control-input-background: black;
+		--control-input-background-hover: white;
+		--control-input-background-disabled: #7f7f7f;
+		
+		// --control-input-accent: #ff3f7f;
+		--control-input-accent: #4f1f9f;
+	
+		background-color: black;
+	}
+}
+
+@mixin input {
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	
+	border: solid 1px var(--border-color);
+	padding: 0 .25rem;
+	
+	color: var(--control-input-text);
+	background-color: var(--control-input-background);
+	
+	&:not([type="text"]) {
+		cursor: pointer;
+		
+		&:not(:disabled):hover {
+			background-color: var(--control-input-background-hover);
+			color: var(--control-input-text-hover);
+		}
+	}
+}
+
+@mixin button {
+	background-color: var(--control-input-accent);
+	
+	&:not(:disabled):hover {
+		background-color: var(--control-input-background-hover);
+		color: var(--control-input-text-hover);
+	}
+}
+
+input:disabled {
+	background-color: var(--control-input-background-disabled);
+}
+
+html, body, #content {
+	min-height: 100%;
+	
+	height: 100%;
+}
+
+#content {
+	padding-top: var(--top-panel-height);
+	
+	#leftPanel {
+		float: left;
+		
+		border-right: solid 1px var(--border-color);
+		
+		#layerList table {
+			border: solid 1px var(--border-color);
+			border-collapse: collapse;
+			
+			width: 100%;
+			
+			thead {
+				border-bottom: solid 1px var(--border-color);
+				
+				background-color: var(--control-label-background);
+				
+				th.layerCurrent { width: 1rem; }
+				th.layerName { width: calc(100% - 5rem); }
+				th.layerVisible { width: 1rem; }
+				th.layerMove { width: 3rem; }
+				
+				th:not(:last-child) {
+					border-right: solid 1px var(--border-color);
+				}
+			}
+			
+			tr {
+				td {
+					padding: .125rem .25rem;
+					
+					text-align: center;
+					
+					&:not(:last-child) {
+						border-right: solid 1px var(--control-label-background);
+					}
+				}
+					
+				&:not(:last-child) {
+					border-bottom: solid 1px var(--control-label-background);
+				}
+			}
+		}
+	}
+	
+	#rightPanel {
+		float: right;
+		
+		border-left: solid 1px var(--border-color);
+	}
+
+	#leftPanel, #rightPanel {
+		padding: .5rem;
+		
+		width: var(--side-panel-width);
+		height: 100%;
+		
+		color: var(--panel-text);
+		background-color: var(--panel-background);
+		
+		overflow-y: auto;
+		
+		h1 {
+			border-bottom: solid 1px var(--border-color);
+		}
+		
+		p {
+			display: block;
+			position: relative;
+			
+			width: 100%;
+			height: 1rem;
+			
+			overflow: hidden;
+			
+			&::before {
+				content: "?";
+				
+				display: block;
+				position: absolute;
+				top: 0; left: 0;
+				
+				padding-right: .5rem;
+				
+				width: 100%;
+				height: 1rem;
+				
+				background: linear-gradient(to bottom, transparent, var(--panel-background)), linear-gradient(to right, transparent, var(--panel-background));
+				
+				text-align: right;
+				
+				z-index: 1;
+				
+				box-sizing: border-box;
+			}
+			
+			&:hover {
+				height: auto;
+				
+				&::before {
+					display: none;
+				}
+			}
+		}
+		
+		> :not(:first-child) {
+			margin-top: .5rem;
+		}
+	}
+	
+	#mainPanel {
+		display: flex; /*weird, but okay*/
+		float: right;
+		
+		width: calc(100% - 32rem);
+		height: 100%;
+		
+		background: linear-gradient(180deg, var(--main-window-gradient-top), var(--main-window-gradient-bottom));
+		
+		overflow: auto;
+		
+		flex-wrap: wrap;
+		
+		align-content: center;
+		align-items: center;
+		justify-content: center;
+		justify-items: center;
+	
+		#display, .display {
+			margin: .25rem;
+			border: solid 1px var(--border-color);
+			
+			background-color: black;
+			
+			image-rendering:optimizeSpeed;
+			image-rendering:-moz-crisp-edges;
+			image-rendering:-o-crisp-edges;
+			image-rendering:-webkit-optimize-contrast;
+			image-rendering:optimize-contrast;
+			image-rendering:crisp-edges;
+			image-rendering:pixelated;
+			-ms-interpolation-mode:nearest-neighbor;
+			
+			cursor: crosshair;
+		}
+	}
+}
+
+#topPanel {
+	position: fixed;
+	top: 0;left: 0;
+	
+	border-bottom: solid 1px var(--border-color);
+	padding: .125rem .25rem;
+	
+	width: 100%;
+	height: var(--top-panel-height);
+	
+	color: var(--panel-text);
+	background-color: var(--panel-background);
+	
+	line-height: 2rem;
+	vertical-align: top;
+	
+	white-space: normal;
+	
+	overflow-x: auto;
+	
+	span {
+		display: inline-block;
+		
+		margin: 0 .25rem;
+		
+		height: 2rem;
+		
+		line-height: 2rem;
+		vertical-align: top;
+		
+		white-space: nowrap;
+		
+		&:empty {
+			border-left: solid 1px var(--border-color);
+		}
+		
+		&:first-child {
+			margin-left: 0;
+		}
+		
+		&:last-child {
+			margin-right: 0;
+		}
+		
+		> * {
+			display: inline-block;
+			
+			border: solid 1px var(--border-color);
+			padding: 0 .25rem;
+			
+			height: 2rem;
+		}
+		
+		label {
+			border-right: none;
+			
+			color: var(--control-label-text);
+			background-color: var(--control-label-background);
+			
+			line-height: inherit;
+			vertical-align: bottom;
+		}
+		
+		input[type="number"] {
+			width: 3.5rem;
+		}
+		
+		input[type="range"] {
+			width: 5rem;
+		}
+		
+		&:hover label {
+			background-color: var(--control-label-background-hover);
+			color: var(--control-label-text-hover);
+		}
+		
+		&:hover input:not(:disabled) {
+			background-color: var(--control-input-background-hover);
+			color: var(--control-input-text-hover);
+		}
+	}
+}
+
+#topPanel input, #content input {
+	@include input;
+	
+	&[type="button"] {
+		@include button;
+	}
+	
+	&[type="button"] + input[type="button"] {
+		border-left: none;
+	}
+	
+	&[type="radio"] {
+		border-radius: 50%;
+	}
+	
+	&[type="checkbox"], &[type="radio"] {
+		width: 1rem;
+		height: 1rem;
+		
+		vertical-align: baseline;
+		
+		&:checked {
+			background-color: var(--control-input-accent);
+		}
+	}
+}

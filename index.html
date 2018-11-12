@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html class="dark">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>V360Tech Map Editor 2018 Pro Edition [NOT ACTIVATED]</title>
+		<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+	</head>
+	<body>
+		<div id="topPanel">
+			<span>
+				<input id="newButton" type="button" value="New Map" />
+			</span>
+			<span>
+			</span>
+			<span>
+				<label for="layerBox">Layers</label>
+				<input id="layerBox" type="number" value="3" min="1" max="16" />
+			</span>
+			<span>
+				<label for="widthBox" style="font-family: monospace;">&leftrightarrow;<!-- Width --></label>
+				<input id="widthBox" type="number" value="25" min="1" max="256" />
+			</span>
+			<span>
+				<label for="heightBox" style="font-family: monospace;">&updownarrow;<!-- Height --></label>
+				<input id="heightBox" type="number" value="15" min="1" max="256" />
+			</span>
+			<span>
+			</span>
+			<span>
+				<input id="resizeButton" type="button" value="Resize Map" />
+			</span>
+			<span>
+				<input id="exportButton" type="button" value="Export Map" />
+			</span>
+			<span>
+			</span>
+			<span>
+				<label for="brushSizeBox">Brush Size</label>
+				<input id="brushSizeBox" type="number" value="0" min="0" max="5" />
+			</span>
+			<span>
+				<label for="viewScaleBox">View Scale</label>
+				<input id="viewScaleBox" type="number" value="1" min="1" max="16" />
+			</span>
+			<span>
+			</span>
+			<span>
+				<input id="themeButton" type="button" value="Switch Themes" />
+			</span>
+		</div>
+		<div id="content">
+			<div id="leftPanel">
+				<h1>Tile Options</h1>
+				<p>[flip tiles and quickly jump to other tile]</p>
+				<div>
+					<input type="checkbox" id="rot90" />
+					<label for="rot90">+90&deg; Rotation</label>
+				</div>
+				<div>
+					<input type="checkbox" id="rot180" />
+					<label for="rot180">+180&deg; Rotation</label>
+				</div>
+				<div>
+					<input type="checkbox" id="hflip" />
+					<label for="hflip">&leftrightarrow; Horizontal Flip</label>
+				</div>
+				<div>
+					<input type="checkbox" id="vflip" />
+					<label for="vflip">&updownarrow; Vertical Flip</label>
+				</div>
+				<h1>Layer Options</h1>
+				<p tabindex="0">Move layers around, show or hide them, and select the currently editable layer.</p>
+				<div id="layerList">
+					<table>
+						<thead>
+							<tr>
+								<th class="layerCurrent">✏</th>
+								<th class="layerName">Name</th>
+								<th class="layerVisible">👁</th>
+								<th class="layerMove">⬆⬇</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><input type="radio" id="layer0current" name="currentLayer" checked /></td>
+								<td><label for="layer0current">Layer 0</label></td>
+								<td><input type="checkbox" id="layer0show" checked /></td>
+								<td>
+									<input type="button" value="⬆" disabled />
+									<input type="button" value="⬇" />
+								</td>
+							</tr>
+							<tr>
+								<td><input type="radio" id="layer1current" name="currentLayer" /></td>
+								<td><label for="layer1current">Layer 1</label></td>
+								<td><input type="checkbox" id="layer1show" checked /></td>
+								<td>
+									<input type="button" value="⬆" />
+									<input type="button" value="⬇" />
+								</td>
+							</tr>
+							<tr>
+								<td><input type="radio" id="layer2current" name="currentLayer" /></td>
+								<td><label for="layer2current">Layer 2</label></td>
+								<td><input type="checkbox" id="layer2show" checked /></td>
+								<td>
+									<input type="button" value="⬆" />
+									<input type="button" value="⬇" disabled />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<h1>Downloads</h1>
+				<p>All your exports will appear here. Click one to download it and remove it from the list.</p>
+			</div>
+			<div id="rightPanel">
+				<h1>Events</h1>
+			</div>
+			<div id="mainPanel">
+				<canvas id="display" width="400" height="240"></canvas>
+			</div>
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>
