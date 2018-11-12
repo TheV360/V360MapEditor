@@ -379,4 +379,9 @@ html, body, #content {
 	
 	line-height: 1rem;
 	vertical-align: bottom;
+	
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
