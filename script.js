@@ -123,7 +123,7 @@ class ItemListing {
 		}
 		
 		this.element = document.createElement("table");
-		// todo. get some sleep, dumbass
+		// todo. don't be mean to yourself, dummy
 		
 		this.element = this.parent.appendChild(this.element);
 	}
