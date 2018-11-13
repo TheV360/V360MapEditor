@@ -90,7 +90,6 @@ function fileMap(file, callback) {
 	reader.onload = function() {
 		var arrayBuffer = this.result;
 		var array = new Uint8Array(arrayBuffer);
-		//var binaryString = String.fromCharCode.apply(null, array);
 		
 		console.log(array);
 		
