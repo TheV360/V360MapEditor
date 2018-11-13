@@ -43,35 +43,30 @@ class Map {
 	
 	toBlob() {
 		// Magic number
-		// var str = "560360";
-		// var bytes, blob;
+		var str = "560360";
+		var bytes, blob;
 		
-		// str += pad(this.layers.toString(16), 2);
-		// str += pad(this.width.toString(16), 2);
-		// str += pad(this.height.toString(16), 2);
+		str += pad(this.layers.toString(16), 2);
+		str += pad(this.width.toString(16), 2);
+		str += pad(this.height.toString(16), 2);
 		
-		// for (var l = 0; l < this.layers; l++) {
-		// 	for (var j = 0; j < this.height; j++) {
-		// 		for (var i = 0; i < this.width; i++) {
-		// 			str += pad(this.map[l][j][i].toString(16), 4);
-		// 		}
-		// 	}
-		// }
+		for (var l = 0; l < this.layers; l++) {
+			for (var j = 0; j < this.height; j++) {
+				for (var i = 0; i < this.width; i++) {
+					str += pad(this.map[l][j][i].toString(16), 4);
+				}
+			}
+		}
 		
-		// bytes = new Uint8Array(str.length / 2);
+		bytes = new Uint8Array(Math.ceil(str.length / 2));
 		
-		// for (var i = 0; i < str.length; i++) {
-		// 	bytes[i] = parseInt(str[i * 2] + str[(i * 2) + 1], 16);
-		// }
+		for (var i = 0; i < bytes.length; i++) {
+			bytes[i] = parseInt(str.substr(i * 2, 2), 16);
+		}
 		
-		// // console.log(str);
-		// // console.log(bytes);
+		blob = new Blob([bytes], {type: "application/octet-stream"});
 		
-		// blob = new Blob(bytes, {type: 'application/octet-stream'});
-		
-		// return URL.createObjectURL(blob);
-		
-		alert("OOF! Completely broken! Sorry.");
+		return URL.createObjectURL(blob);
 	}
 	
 	drawLayer(l) {
@@ -309,7 +304,7 @@ function generalSetup() {
 		
 		info.href = editingMap.toBlob();
 		info.download = name + ".v360map";
-		info.innerHTML = "📄 " + name + ".v360map";
+		info.innerHTML = "ðŸ“„ " + name + ".v360map";
 		
 		info.addEventListener("click", (e)=>{
 			e.target.remove();
