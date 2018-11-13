@@ -304,7 +304,7 @@ function generalSetup() {
 		
 		info.href = editingMap.toBlob();
 		info.download = name + ".v360map";
-		info.innerHTML = "ðŸ“„ " + name + ".v360map";
+		info.innerHTML = "📄 " + name + ".v360map";
 		
 		info.addEventListener("click", (e)=>{
 			e.target.remove();
