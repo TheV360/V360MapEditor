@@ -65,6 +65,7 @@
 		
 		// --control-input-accent: #ff3f7f;
 		--control-input-accent: #4f1f9f;
+		--control-input-accent-checked: #8f2fff;
 	
 		background-color: black;
 	}
@@ -97,6 +98,15 @@
 		&:not(:disabled):hover {
 			background-color: var(--control-input-background-hover);
 			color: var(--control-input-text-hover);
+		}
+		
+		&:checked {
+			background-color: var(--control-input-background-hover);
+			color: var(--control-input-text-hover);
+			
+			&:hover {
+				background-color: var(--control-input-accent-checked);
+			}
 		}
 	}
 }
@@ -405,9 +415,9 @@ html, body, #content {
 		
 		vertical-align: top;
 		
-		&:checked {
-			background-color: var(--control-input-accent);
-		}
+		// &:checked {
+		// 	background-color: var(--control-input-accent);
+		// }
 	}
 }
 

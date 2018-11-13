@@ -35,36 +35,43 @@ class Map {
 		}
 	}
 	
+	//todo : add this.ready, don't loop until it's ready.
+	
 	size() {
 		return ;
 	}
 	
 	toBlob() {
 		// Magic number
-		var str = "560360";
-		var bytes, blob;
+		// var str = "560360";
+		// var bytes, blob;
 		
-		str += pad(this.layers.toString(16), 2);
-		str += pad(this.width.toString(16), 2);
-		str += pad(this.height.toString(16), 2);
+		// str += pad(this.layers.toString(16), 2);
+		// str += pad(this.width.toString(16), 2);
+		// str += pad(this.height.toString(16), 2);
 		
-		for (var l = 0; l < this.layers; l++) {
-			for (var j = 0; j < this.height; j++) {
-				for (var i = 0; i < this.width; i++) {
-					str += pad(this.map[l][j][i].toString(16), 4);
-				}
-			}
-		}
+		// for (var l = 0; l < this.layers; l++) {
+		// 	for (var j = 0; j < this.height; j++) {
+		// 		for (var i = 0; i < this.width; i++) {
+		// 			str += pad(this.map[l][j][i].toString(16), 4);
+		// 		}
+		// 	}
+		// }
 		
-		bytes = new Uint8Array(str.length / 2);
+		// bytes = new Uint8Array(str.length / 2);
 		
-		for (var i = 0; i < str.length; i++) {
-			bytes[i] = parseInt(str[i * 2] + str[(i * 2) + 1], 16);
-		}
+		// for (var i = 0; i < str.length; i++) {
+		// 	bytes[i] = parseInt(str[i * 2] + str[(i * 2) + 1], 16);
+		// }
 		
-		blob = new Blob(bytes, {type: 'application/octet-stream'});
+		// // console.log(str);
+		// // console.log(bytes);
 		
-		return URL.createObjectURL(blob);
+		// blob = new Blob(bytes, {type: 'application/octet-stream'});
+		
+		// return URL.createObjectURL(blob);
+		
+		alert("OOF! Completely broken! Sorry.");
 	}
 	
 	drawLayer(l) {
@@ -80,6 +87,40 @@ class Map {
 			this.drawLayer(l);
 		}
 	}
+}
+
+function fileMap(file, callback) {
+	var reader = new FileReader();
+	
+	reader.onload = function() {
+		var arrayBuffer = this.result;
+		var array = new Uint8Array(arrayBuffer);
+		//var binaryString = String.fromCharCode.apply(null, array);
+		
+		console.log(array);
+		
+		var layers = array[3];
+		var width = array[4];
+		var height = array[5];
+		
+		var theActualMapYouWanted = new Map(layers, width, height);
+		
+		var c = 6;
+		
+		for (var l = 0; l < layers; l++) {
+			for (var j = 0; j < height; j++) {
+				for (var i = 0; i < width; i++) {
+					theActualMapYouWanted.map[l][j][i] = array[c] << 8 | array[c + 1];
+					console.log(theActualMapYouWanted.map[l][j][i]);
+					c += 2;
+				}
+			}
+		}
+		
+		callback(theActualMapYouWanted);
+	}
+	
+	reader.readAsArrayBuffer(file);
 }
 
 class MapEditor {
@@ -125,7 +166,7 @@ class ItemListing {
 		
 		this.element = document.createElement("table");
 		
-		
+		// still todo
 		
 		this.element = this.parent.appendChild(this.element);
 	}
@@ -177,7 +218,8 @@ var mainPanel, leftPanel, right, top;
 
 // Controls
 var layerInput, widthInput, heightInput;
-var newButton, resizeButton, exportButton;
+var newButton, openButton;
+var resizeButton, exportButton;
 var brushSizeInput, viewScaleInput;
 var themeButton;
 
@@ -220,6 +262,7 @@ function generalSetup() {
 	heightInput = document.getElementById("heightBox");
 	
 	newButton = document.getElementById("newButton");
+	openButton = document.getElementById("openButton");
 	resizeButton = document.getElementById("resizeButton");
 	exportButton = document.getElementById("exportButton");
 	
@@ -236,6 +279,16 @@ function generalSetup() {
 		editingMap = new Map(mapLayers, mapWidth, mapHeight);
 		updateCanvasSize();
 	});
+	openButton.addEventListener("click", ()=>{
+		var fileInput = document.createElement("input");
+		fileInput.type = "file";
+		fileInput.accept = ".v360map";
+		fileInput.addEventListener("change", (e)=>{
+			fileMap(fileInput.files[0], (m)=>{editingMap = m; fileInput.remove();});
+		});
+		fileInput = leftPanel.appendChild(fileInput);
+		fileInput.click();
+	});
 	resizeButton.addEventListener("click", ()=>{
 		mapLayers = layerInput.value;
 		mapWidth = widthInput.value;
@@ -247,7 +300,6 @@ function generalSetup() {
 		updateCanvasSize();
 	});
 	exportButton.addEventListener("click", ()=>{
-		var sideBarThing = document.getElementById("leftPanel");
 		var info = document.createElement("a");
 		var name = prompt("Name your file. It will have an extension of *.v360map.");
 		
@@ -263,7 +315,7 @@ function generalSetup() {
 			e.target.remove();
 		});
 		
-		sideBarThing.appendChild(info);
+		leftPanel.appendChild(info);
 	});
 	
 	brushSizeInput.addEventListener("change", (e)=>{
